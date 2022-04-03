@@ -1,3 +1,5 @@
+package task5and9;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -5,7 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class VSSGUILogin extends JFrame {
+public class VSSGUIInspection extends JFrame {
 
 	private JPanel contentPane;
 
@@ -16,7 +18,7 @@ public class VSSGUILogin extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VSSGUILogin frame = new VSSGUILogin();
+					VSSGUIInspection frame = new VSSGUIInspection();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -28,7 +30,7 @@ public class VSSGUILogin extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VSSGUILogin() {
+	public VSSGUIInspection() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
