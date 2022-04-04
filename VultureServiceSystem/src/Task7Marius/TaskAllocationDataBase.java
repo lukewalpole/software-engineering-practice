@@ -1,4 +1,4 @@
-package Task7M;
+package Task7Marius;
 
 import java.util.ArrayList;
 import java.sql.ResultSet;
