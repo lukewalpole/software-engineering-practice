@@ -1,5 +1,7 @@
 package Task7;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Task {
@@ -8,11 +10,14 @@ public class Task {
 	private String task_type;
 	private String task_desc;
 	private String task_startDate;
+	private String task_endDate;
 	private String task_status;
-	private String task_deadline;
-	private Technician tech;
+	private LocalDate task_deadline;
+	private int remainingDays;
+	public String notes;
+	protected Technician tech; // declare tech inside task class
 	
-	
+	/***Create an empty constructor***/
 	public Task() {
 		this.taskId = 0;
 		this.task_type = null;
@@ -20,20 +25,28 @@ public class Task {
 		this.task_startDate = null;
 		this.task_status = null;
 		this.task_deadline = null;
-		tech=null;
+		this.remainingDays=0;
+		this.task_endDate=null;
+		this.notes=null;
+		this.tech=null;
+        
 	}
 
-	public Task(int taskId, String task_type, String task_desc, String task_startDate, String task_status,
-			String task_deadline) {
+	public Task(int taskId, String task_type, String task_desc, String task_startDate,String task_endDate, String task_status,
+			LocalDate task_deadline, int newRemainingDays, String notes, Technician newTech) {
 		this.taskId = taskId;
 		this.task_type = task_type;
 		this.task_desc = task_desc;
 		this.task_startDate = task_startDate;
 		this.task_status = task_status;
 		this.task_deadline = task_deadline;
-		this.tech= new Technician();
+		this.remainingDays=newRemainingDays;
+		this.task_endDate=task_endDate;
+		this.notes=notes;
+		this.tech= newTech;
 	}
 
+	/***Getters&Settters***/
 	public int getTaskId() {
 		return taskId;
 	}
@@ -65,6 +78,14 @@ public class Task {
 	public void setTask_startDate(String task_startDate) {
 		this.task_startDate = task_startDate;
 	}
+	
+	public String getTask_endDate() {
+		return task_endDate;
+	}
+
+	public void setTask_endDate(String task_endDate) {
+		this.task_endDate = task_endDate;
+	}
 
 	public String getTask_status() {
 		return task_status;
@@ -74,21 +95,41 @@ public class Task {
 		this.task_status = task_status;
 	}
 
-	public String getTask_deadline() {
+	public LocalDate getTask_deadline() { 
 		return task_deadline;
-	}
 
-	public void setTask_deadline(String task_deadline) {
-		this.task_deadline = task_deadline;
 	}
+/***retrieve the data from DB and set  the deadline using LocalDate and DateTimeFormatter classes***/
+	public void setTask_deadline(String task_deadline) {
+		DateTimeFormatter dtf=DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		this.task_deadline = LocalDate.parse(task_deadline,dtf);
+	}
+	
+	public int getRemainingDays() {
+		return this.remainingDays;
+	}
+	
+	public void setRemainingDays(int newRemainingDays) {
+		this.remainingDays= newRemainingDays;
+	}
+	
+	public String getNotes() {
+		return this.notes;
+	}
+	
+	public void setNotes(String notes) {
+		this.notes=notes;
+	}
+	
 	
 	public Technician getTech() {
 		return tech;
 	}
 	
-	public void setTech(Technician techX) {
-		this.tech=techX;
+	public void setTech(Technician newTech) {
+		this.tech=newTech;
 	}
+	/***End of Getters&Setters***/
 	
 	@Override
 	public String toString() {
