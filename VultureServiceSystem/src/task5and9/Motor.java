@@ -6,6 +6,8 @@ import java.util.*;
 
 public class Motor {
 	
+	int id;
+	int userID;
 	String motorName;
 	String manufacturer;
 	String client;
@@ -22,6 +24,8 @@ public class Motor {
 	
 	
 	public Motor(){
+		int id=0;
+		int userID=0;
 		 motorName="";
 		 manufacturer="";
 		 client="";
@@ -39,6 +43,21 @@ public class Motor {
 	
 	
 	//getters and setters
+	public int getID() {
+		return id;
+	}
+	public void setID(int newMotorid) {
+		id = newMotorid;
+	}
+	//
+	public int getUserID() {
+	return userID;
+}
+	public void setUserID(int newUserid) {
+		userID = newUserid;
+	}
+	
+	//
 	
 	
 	public String getMotorName() {

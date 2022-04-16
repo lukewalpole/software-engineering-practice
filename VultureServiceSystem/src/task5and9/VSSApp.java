@@ -24,7 +24,7 @@ public class VSSApp {
 	*
 	*/
 	public VSSApp(){
-		formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		formatter = new SimpleDateFormat("yyyy-MM-dd");
 		data = new VSSDatabase();
 		theMainWindow = new VSSGUI(this);
 		theMainWindow.setVisible(true);
@@ -82,7 +82,8 @@ public class VSSApp {
 	
 	/**
 	* Adds a new student to the database
-	*
+	*int id,
+			int userID,
 	* @param  studentName The name of the student to add
 	* @param mark The mark for the new student
 	*/
@@ -100,6 +101,8 @@ public class VSSApp {
 			String replace,
 			String notes) {
 		Motor m = new Motor();
+		//m.setID(id);
+		//m.setUserID(userID);
 		m.setMotorName(motorName);
 		m.setManufacturer(manufacturer);
 		m.setClient(client);
