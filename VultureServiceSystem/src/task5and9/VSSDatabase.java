@@ -16,7 +16,7 @@ private DBConnection database;
 private DateFormat formatter;
 
 	public  VSSDatabase() {
-		formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		formatter = new SimpleDateFormat("yyyy-MM-dd");
 		database = new DBConnection();
 		database.Connect("C:\\Users\\User\\Documents\\GitHub\\software-engineering-practice\\VultureServiceSystem\\database.db");
 	}
@@ -30,17 +30,21 @@ private DateFormat formatter;
 	*/
 	public void AddMotor(Motor m) {
 		String sqlString = new String("INSERT INTO motor VALUES('");
-		sqlString = sqlString + m.getMotorName()+"', ";
-		sqlString = sqlString + m.getMotorManufacturer()+"', ";
-		sqlString = sqlString + m.getClient()+"', ";
-		sqlString = sqlString + m.getDesc()+"', ";
-		sqlString = sqlString + m.getFault()+"', ";
-		sqlString = sqlString + formatter.format(m.getStartDate())+"', ";
-		sqlString = sqlString + formatter.format(m.getEndDate())+"', ";
-		sqlString = sqlString + formatter.format(m.getDuration())+"', ";
-		
+		sqlString = sqlString + m.getID()+"', '";
+		sqlString = sqlString + m.getUserID()+"', '";
+		sqlString = sqlString + m.getMotorName()+"', '";
+		sqlString = sqlString + m.getMotorManufacturer()+"', '";
+		sqlString = sqlString + m.getClient()+"', '";
+		sqlString = sqlString + m.getDesc()+"', '";
+		sqlString = sqlString + m.getFault()+"', '";
+		sqlString = sqlString + formatter.format(m.getStartDate())+"', '";
+		sqlString = sqlString + formatter.format(m.getEndDate())+"', '";
+		sqlString = sqlString + formatter.format(m.getDuration())+"', '";
+		sqlString = sqlString + m.getStatus()+"', '";
+		sqlString = sqlString + m.getDelay()+"', '";
+		sqlString = sqlString + m.getRep()+"', '";
 		sqlString = sqlString+   m.getNotes();
-		sqlString = sqlString+  ");";
+		sqlString = sqlString+  "');";
 		
 		boolean success = database.RunSQL(sqlString);
 		
@@ -123,20 +127,24 @@ notes TEXT NULL,
 	* Sends error string to System.out if the DBConnection reports a failure
 	* @return  An arraylist containing StudentMark objects for all students in the database
 	*/
+	//motor_name,
 	public ArrayList<Motor> GetAllMotors(){
 		
-		String sqlString = new String("SELECT motor_name,"
-				+"motor_manufacturer="
-				+", motor_client="  
-				+", motor_desc=" 
-				+", motor_fault="
-				+", job_startDate=" 
-				+", job_endDate=" 
-				+", job_duration=" 
-				+", job_status=" 
-				+", job_delay="
-				+", replacement_parts="
-				+", notes="
+		String sqlString = new String("SELECT "
+				+"motor_id"
+				+", user_id"
+				+", motor_name"
+				+", motor_manufacturer"
+				+", motor_client"  
+				+", motor_desc" 
+				+", motor_fault"
+				+", job_startDate" 
+				+", job_endDate" 
+				+", job_duration" 
+				+", job_status" 
+				+", job_delay"
+				+", replacement_parts"
+				+", notes "
 				+ "FROM motor;");
 		ResultSet motorList = database.RunSQLQuery(sqlString);
 		ArrayList<Motor> answer = new ArrayList<Motor>();
@@ -144,34 +152,36 @@ notes TEXT NULL,
 		try {
 			while(motorList.next()) {
 				Motor m = new Motor();
-				m.setMotorName(motorList.getString(1));
-				m.setManufacturer(motorList.getString(2));
-				m.setClient(motorList.getString(3));
-				m.setDesc(motorList.getString(4));	
-				m.setFault(motorList.getString(5));	
+				m.setID(motorList.getInt(1));
+				m.setUserID(motorList.getInt(2));
+				m.setMotorName(motorList.getString(3));
+				m.setManufacturer(motorList.getString(4));
+				m.setClient(motorList.getString(5));
+				m.setDesc(motorList.getString(6));	
+				m.setFault(motorList.getString(7));	
 				try {
-					m.setStartDate(formatter.parse(motorList.getString(6)));
+					m.setStartDate(formatter.parse(motorList.getString(8)));
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}	
 				try {
-					m.setEndDate(formatter.parse(motorList.getString(7)));
+					m.setEndDate(formatter.parse(motorList.getString(9)));
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}	
 				try {
-					m.setDuration(formatter.parse(motorList.getString(8)));
+					m.setDuration(formatter.parse(motorList.getString(10)));
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}	
 				//m.setEstimatedCompletion(formatter.parse(motorList.getString(2)));
-				m.setStatus(motorList.getString(9));	
-				m.setDelay(Boolean.parseBoolean((motorList.getString(10))));	
-				m.setRep(motorList.getString(11));	
-				m.setNotes(motorList.getString(12));	
+				m.setStatus(motorList.getString(11));	
+				m.setDelay(Boolean.parseBoolean((motorList.getString(12))));	
+				m.setRep(motorList.getString(13));	
+				m.setNotes(motorList.getString(14));	
 				answer.add(m);
 			}
 		} catch (SQLException e) {
