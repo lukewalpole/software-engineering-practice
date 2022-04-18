@@ -3,11 +3,17 @@ package task5and9;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*; 
+import java.time.LocalDate;
+import java.util.*;
+
+import Task7.Technician; 
 
 public class VSSApp {
 	
-	VSSGUI theMainWindow;			// The GUI to communicate with user
+	allInspectionDialog InspecWindow;
+	allTaskDialog TaskWindow;
+	VSSGUI theMainWindow;	// The GUI to communicate with user
+	delayDialog DelayWindow;
 	private VSSDatabase data;
 	private DateFormat formatter;
 
@@ -29,6 +35,13 @@ public class VSSApp {
 		theMainWindow = new VSSGUI(this);
 		theMainWindow.setVisible(true);
 		theMainWindow.displayTableData(data.GetAllMotors());
+		
+		//InspecWindow = new allInspectionDialog(this);
+		//InspecWindow.setVisible(true);
+		//InspecWindow.displayTableData(data.GetAllInspections());
+		
+		
+		
 	}
 	
 	/**
@@ -52,10 +65,10 @@ public class VSSApp {
 			String client,
 			String desc,
 			String fault,
-			Date startDate,
-			Date endDate,
-			Date duration,
-			Date estimatedCompletion,
+			String startDate,
+			String endDate,
+			int duration,
+			String estimatedCompletion,
 			String status,
 			boolean delay,
 			String replace,
@@ -81,7 +94,7 @@ public class VSSApp {
 	
 	
 	/**
-	* Adds a new student to the database
+	* Adds a new motor to the database
 	*int id,
 			int userID,
 	* @param  studentName The name of the student to add
@@ -92,10 +105,10 @@ public class VSSApp {
 			String client,
 			String desc,
 			String fault,
-			Date startDate,
-			Date endDate,
-			Date duration,
-			Date estimatedCompletion,
+			String startDate,
+			String endDate,
+			int duration,
+			String estimatedCompletion,
 			String status,
 			boolean delay,
 			String replace,
@@ -122,7 +135,111 @@ public class VSSApp {
 		// But I'll let the GUI do it, since it will be replaced by
 		// database ResultSet, anyway.
 		theMainWindow.displayTableData(data.GetAllMotors());
+		
 	}
 	
+	void addInspec(int userID,
+			int motorID,
+			String inspecResult,
+			String inspectionDate,
+			String notes) {
+		Inspection m = new Inspection();
+		m.setMotorID(motorID);
+		m.setUserID(userID);
+		m.setInspecRes(inspecResult);
+		m.setInspecDate(inspectionDate);
+		m.setNotes(notes);
+		data.AddInspec(m);
+		
+		// Tempted to convert to an Object[][] at this point.
+		// But I'll let the GUI do it, since it will be replaced by
+		// database ResultSet, anyway.
+		
+		InspecWindow = new allInspectionDialog(this);
+		InspecWindow.setVisible(true);
+		InspecWindow.displayTableData(data.GetAllInspections());
+	}
+	
+	void deleteInspec(int ID) {
+		data.DeleteInspec(ID);
+		
+		InspecWindow = new allInspectionDialog(this);
+		InspecWindow.setVisible(true);
+		InspecWindow.displayTableData(data.GetAllInspections());
+	}
 
+	
+	//task
+	
+	void addTask(int userID,
+			int motorID,
+			//String tech,
+			String taskType,
+			String taskDesc,
+			String taskStart,
+			String taskEnd,
+			String taskStatus,
+			String taskDeadline,
+			String notes) {
+		Task m = new Task();
+		m.setMotorID(motorID);
+		m.setUserID(userID);
+		m.setTask_type(taskType);
+		m.setTask_desc(taskDesc);
+		m.setTask_startDate(taskStart);
+		m.setTask_endDate(taskEnd);
+		m.setTask_status(taskStatus);
+		m.setTask_deadline(taskDeadline);
+		//m.setTech(tech);
+		m.setNotes(notes);
+		data.AddTask(m);
+		
+		// Tempted to convert to an Object[][] at this point.
+		// But I'll let the GUI do it, since it will be replaced by
+		// database ResultSet, anyway.
+		
+		TaskWindow = new allTaskDialog(this);
+		TaskWindow.setVisible(true);
+		TaskWindow.displayTableData(data.GetAllTasks());
+	}
+	
+	void deleteTask(int ID) {
+		data.DeleteTask(ID);
+		
+		TaskWindow = new allTaskDialog(this);
+		TaskWindow.setVisible(true);
+		TaskWindow.displayTableData(data.GetAllTasks());
+	}
+	
+	void suspendTask(int ID) {
+		data.suspendTask(ID);
+		
+		DelayWindow = new delayDialog(this);
+		DelayWindow.setVisible(true);
+		DelayWindow.displayTableData(data.GetAllRemainingTasks());
+	}
+	
+	void resumeTask(int ID) {
+		data.resumeTask(ID);
+		
+		DelayWindow = new delayDialog(this);
+		DelayWindow.setVisible(true);
+		DelayWindow.displayTableData(data.GetAllRemainingTasks());
+	}
+	
+	void completeTask(int ID) {
+		data.completeTask(ID);
+		
+		DelayWindow = new delayDialog(this);
+		DelayWindow.setVisible(true);
+		DelayWindow.displayTableData(data.GetAllRemainingTasks());
+	}
+	
+	void sendAlerts(int ID) {
+		data.sendAlerts(ID);
+		
+		DelayWindow = new delayDialog(this);
+		DelayWindow.setVisible(true);
+		DelayWindow.displayTableData(data.GetAllRemainingTasks());
+	}
 }

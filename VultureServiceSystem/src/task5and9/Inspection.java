@@ -1,5 +1,7 @@
 package task5and9;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Inspection {
@@ -8,7 +10,7 @@ public class Inspection {
 	int userID;
 	int motorID;
 	String inspecResult;
-	Date inspecDate;
+	LocalDate inspecDate;
 	String notes;
 	
 	
@@ -17,7 +19,7 @@ public class Inspection {
 		userID=0;
 		motorID=0;
 		 inspecResult="";
-		Date inspecDate = new Date();
+		Date inspecDate = null;
 		String notes="";
 		}
 	
@@ -27,11 +29,25 @@ public class Inspection {
 	public int getID() {
 		return id;
 	}
+	
+	public void setID(int newID) {
+		id = newID;
+	}
+	
 	public int getUserID() {
 		return userID;
 	}
+	
+	public void setUserID(int newUserID) {
+		userID = newUserID;
+	}
+	
 	public int getMotorID() {
 		return motorID;
+	}
+	
+	public void setMotorID(int newMotorID) {
+		motorID = newMotorID;
 	}
 	
 	public String getNotes() {
@@ -56,13 +72,14 @@ public class Inspection {
 	
 	//
 	
-	public Date getInspecDate() {
+	public LocalDate getInspecDate() {
 		return inspecDate;
 	}
 	
 	
-	public void setInspecDate(Date newInspecDate) {
-		inspecDate = newInspecDate;
+	public void setInspecDate(String newInspecDate) {
+		DateTimeFormatter dtf=DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		inspecDate = LocalDate.parse(newInspecDate,dtf);
 	}
 
 }

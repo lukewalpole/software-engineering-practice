@@ -30,24 +30,11 @@ public class changeMotorDialog extends JDialog {
 	public JTextField notesField;
 	
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			changeMotorDialog dialog = new changeMotorDialog();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public changeMotorDialog() {
 		setModal(true);
-		setBounds(100, 100, 456, 131);
+		setBounds(100, 100, 522, 290);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setLayout(new FlowLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

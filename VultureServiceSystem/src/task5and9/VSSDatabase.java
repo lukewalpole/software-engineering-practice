@@ -6,8 +6,12 @@ import java.text.DateFormat;
 //import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.time.temporal.ChronoUnit;
+
 
 
 
@@ -29,17 +33,17 @@ private DateFormat formatter;
 	* sqlString = sqlString + formatter.format(m.getEstimatedCompletion())+"', ";
 	*/
 	public void AddMotor(Motor m) {
-		String sqlString = new String("INSERT INTO motor VALUES('");
-		sqlString = sqlString + m.getID()+"', '";
+		String sqlString = new String("INSERT INTO motor(user_id, motor_name, motor_manufacturer, motor_client, motor_desc, motor_fault, job_startDate, job_endDate, job_duration, job_status, job_delay, replacement_parts, notes) VALUES('");
+		//sqlString = sqlString + m.getID()+"', '";
 		sqlString = sqlString + m.getUserID()+"', '";
 		sqlString = sqlString + m.getMotorName()+"', '";
 		sqlString = sqlString + m.getMotorManufacturer()+"', '";
 		sqlString = sqlString + m.getClient()+"', '";
 		sqlString = sqlString + m.getDesc()+"', '";
 		sqlString = sqlString + m.getFault()+"', '";
-		sqlString = sqlString + formatter.format(m.getStartDate())+"', '";
-		sqlString = sqlString + formatter.format(m.getEndDate())+"', '";
-		sqlString = sqlString + formatter.format(m.getDuration())+"', '";
+		sqlString = sqlString + m.getStartDate()+"', '";
+		sqlString = sqlString + m.getEndDate()+"', '";
+		sqlString = sqlString + m.getDuration()+"', '";
 		sqlString = sqlString + m.getStatus()+"', '";
 		sqlString = sqlString + m.getDelay()+"', '";
 		sqlString = sqlString + m.getRep()+"', '";
@@ -62,12 +66,81 @@ private DateFormat formatter;
 	public void DeleteMotor(String motorName) {
 		// Should probably add a message if the motor does not exist.
 		
-		String sqlString = new String("DELETE FROM motor WHERE motor_name = '"+motorName+"';");
+		//"DELETE FROM motor WHERE motor_name = '"+motorName+"';"
+		String sqlString = new String("DELETE FROM motor;");
 		boolean success = database.RunSQL(sqlString);
 		if(!success) {
 			System.out.println("Failed to run query: "+sqlString);
 		}
 	}
+	
+	/**
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
+	
+	public void suspendTask(int ID) {
+		// Should probably add a message if the motor does not exist.
+		
+		
+		String sqlString = new String("UPDATE task SET task_status='suspended' WHERE task_id='"+ID+"';");
+		
+		boolean success = database.RunSQL(sqlString);
+		if(!success) {
+			System.out.println("Failed to run query: "+sqlString);
+		}
+	}
+	
+	public void resumeTask(int ID) {
+		// Should probably add a message if the motor does not exist.
+		
+		String sqlString = new String("UPDATE task SET task_status='progress' WHERE task_id='"+ID+"';");
+		
+		boolean success = database.RunSQL(sqlString);
+		if(!success) {
+			System.out.println("Failed to run query: "+sqlString);
+		}
+	}
+	
+	public void completeTask(int ID) {
+		// Should probably add a message if the motor does not exist.
+		
+		
+		String sqlString = new String("UPDATE task SET task_status='complete' WHERE task_id='"+ID+"';");
+		
+		boolean success = database.RunSQL(sqlString);
+		if(!success) {
+			System.out.println("Failed to run query: "+sqlString);
+		}
+	}
+	
+	/**
+	 * send alerts to manager or customer service
+	 */
+	public void sendAlerts(int ID) {
+		// Should probably add a message if the motor does not exist.
+		Task t = new Task();
+		
+		//Duration dayBetween =Duration.between(t.getTask_startDate(),t.getTask_startDate());
+		long daysBetween =ChronoUnit.DAYS.between(t.getTask_startDate(),t.getTask_endDate());
+		//long days = t.getTask_startDate().until(t.getTask_startDate(),DAYS);
+		
+		if(!t.getTask_status().equals("suspended") && daysBetween>2 ) {
+		String sqlString = new String("UPDATE task SET task_status='manager alerted' WHERE task_id='"+ID+"';");
+		}else if(t.getTask_deadline().isBefore(LocalDate.now())) {
+			String sqlString = new String("UPDATE task SET task_status='customer service alerted' WHERE task_id='"+ID+"';");
+		}
+		
+		String sqlString = new String("UPDATE task SET task_status='alerted' WHERE task_id='"+ID+"';");
+		
+		boolean success = database.RunSQL(sqlString);
+		if(!success) {
+			System.out.println("Failed to run query: "+sqlString);
+		}
+	}
+	
 	
 	/**
 	* Changes the mark of a student in the DBConnection database
@@ -80,40 +153,27 @@ private DateFormat formatter;
 			String client,
 			String desc,
 			String fault,
-			Date startDate,
-			Date endDate,
-			Date duration,
+			String startDate,
+			String endDate,
+			int duration,
 			String status,
 			boolean delay,
 			String replace,
 			String notes) {
 		
-		/*
-		 * motor_manufacturer TEXT,
-motor_client TEXT,
-motor_desc TEXT,
-motor_fault TEXT,
-job_startDate TEXT,
-job_endDate TEXT NULL,
-job_duration TEXT,
-job_status TEXT,
-job_delay TEXT NULL,
-replacement_parts TEXT NULL,
-notes TEXT NULL,
-		 */
 		
-		String sqlString = new String("UPDATE motor SET motor_manufacturer="+ manufacturer 
-				+", motor_client=" + client 
-				+", motor_desc=" + desc
-				+", motor_fault=" + fault
-				+", job_startDate=" + startDate
-				+", job_endDate=" + endDate
-				+", job_duration=" + desc
-				+", job_status=" + desc
-				+", job_delay=" + desc
-				+", replacement_parts=" + desc
-				+", notes=" + notes
-				+" WHERE motor_name='"+motorName+"';");
+		String sqlString = new String("UPDATE motor SET motor_manufacturer='" + manufacturer 
+				+"', motor_client= '" + client 
+				+"', motor_desc='" + desc
+				+"', motor_fault='" + fault
+				+"', job_startDate='" + startDate
+				+"', job_endDate='" + endDate
+				+"', job_duration='" + desc
+				+"', job_status='" + desc
+				+"', job_delay='" + desc
+				+"', replacement_parts='" + desc
+				+"', notes='" + notes
+				+"' WHERE motor_name='"+motorName+"';");
 
 		boolean success = database.RunSQL(sqlString);
 		
@@ -122,6 +182,72 @@ notes TEXT NULL,
 		}
 	}
 	
+	public void AddInspec(Inspection m) {
+		String sqlString = new String("INSERT INTO inspection(user_id, motor_id, inspection_result, inspection_date, notes) VALUES('");
+	    //sqlString = sqlString + m.getID()+"', '";
+		sqlString = sqlString + m.getUserID()+"', '";
+		sqlString = sqlString + m.getMotorID()+"', '";
+		sqlString = sqlString + m.getInspecRes()+"', '";
+		sqlString = sqlString + m.getInspecDate()+"', '";
+		sqlString = sqlString+   m.getNotes();
+		sqlString = sqlString+  "');";
+		
+			boolean success = database.RunSQL(sqlString);
+					
+					if(!success) {
+						System.out.println("Failed to run query: "+sqlString);
+					}
+		}
+	
+	//delete inspection
+	
+	public void DeleteInspec(int ID) {
+		// Should probably add a message if the motor does not exist.
+		
+		//"DELETE FROM inspection WHERE inspection_id = '"+ID+"';"
+		String sqlString = new String("DELETE FROM inspection WHERE inspection_id = '"+ID+"';");
+		boolean success = database.RunSQL(sqlString);
+		if(!success) {
+			System.out.println("Failed to run query: "+sqlString);
+		}
+	}
+	
+	//add task
+	
+	public void AddTask(Task m) {
+		String sqlString = new String("INSERT INTO task(user_id, motor_id, task_type, task_desc,task_startDate,task_endDate,task_status,task_deadline, notes) VALUES('");
+	    //sqlString = sqlString + m.getID()+"', '";
+		sqlString = sqlString + m.getUserID()+"', '";
+		sqlString = sqlString + m.getMotorID()+"', '";
+		sqlString = sqlString + m.getTask_type()+"', '";
+		sqlString = sqlString + m.getTask_desc()+"', '";
+		sqlString = sqlString + m.getTask_startDate()+"', '";
+		sqlString = sqlString + m.getTask_endDate()+"', '";
+		sqlString = sqlString + m.getTask_status()+"', '";
+		sqlString = sqlString + m.getTask_deadline()+"', '";
+		sqlString = sqlString+   m.getNotes();
+		sqlString = sqlString+  "');";
+		
+			boolean success = database.RunSQL(sqlString);
+					
+					if(!success) {
+						System.out.println("Failed to run query: "+sqlString);
+					}
+		}
+	
+	//delete task
+	
+	public void DeleteTask(int ID) {
+		// Should probably add a message if the motor does not exist.
+		
+		//"DELETE FROM task WHERE task_id = '"+ID+"';"
+		
+		String sqlString = new String("DELETE FROM task WHERE task_id = '"+ID+"';");
+		boolean success = database.RunSQL(sqlString);
+		if(!success) {
+			System.out.println("Failed to run query: "+sqlString);
+		}
+	}
 	/**
 	* Returns an array list of all students in the database
 	* Sends error string to System.out if the DBConnection reports a failure
@@ -159,25 +285,10 @@ notes TEXT NULL,
 				m.setClient(motorList.getString(5));
 				m.setDesc(motorList.getString(6));	
 				m.setFault(motorList.getString(7));	
-				try {
-					m.setStartDate(formatter.parse(motorList.getString(8)));
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}	
-				try {
-					m.setEndDate(formatter.parse(motorList.getString(9)));
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}	
-				try {
-					m.setDuration(formatter.parse(motorList.getString(10)));
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}	
-				//m.setEstimatedCompletion(formatter.parse(motorList.getString(2)));
+					m.setStartDate(motorList.getString(8));
+					m.setEndDate(motorList.getString(9));
+					m.setDuration(motorList.getInt(10));	
+				//m.setEstimatedCompletion(motorList.getString(doesnt exist on database));
 				m.setStatus(motorList.getString(11));	
 				m.setDelay(Boolean.parseBoolean((motorList.getString(12))));	
 				m.setRep(motorList.getString(13));	
@@ -193,6 +304,121 @@ notes TEXT NULL,
 		}
 		return answer;
 	}
+	
+public ArrayList<Inspection> GetAllInspections(){
+		
+		String sqlString = new String("SELECT "
+				+"inspection_id"
+				+", user_id"
+				+", motor_id"
+				+", inspection_result"
+				+", inspection_date"  
+				+", notes "
+				+ "FROM inspection;");
+		ResultSet inspecList = database.RunSQLQuery(sqlString);
+		ArrayList<Inspection> answer = new ArrayList<Inspection>();
+		
+		try {
+			while(inspecList.next()) {
+				Inspection m = new Inspection();
+				m.setID(inspecList.getInt(1));
+				m.setUserID(inspecList.getInt(2));
+				m.setMotorID(inspecList.getInt(3));
+				m.setInspecRes(inspecList.getString(4));
+				m.setInspecDate(inspecList.getString(5));
+				m.setNotes(inspecList.getString(6));	
+				answer.add(m);
+			}
+		} catch (SQLException e) {
+			System.out.println("Failed to process query in GetAllInspections()");
+			System.out.println("SQL attempted: "+sqlString);	
+			System.out.println("Error: "+e.getErrorCode());
+			System.out.println("Message: "+e.getMessage());			
+			e.printStackTrace();
+		}
+		return answer;
+	}
+
+//get all tasks
+public ArrayList<Task> GetAllTasks(){
+	
+	String sqlString = new String("SELECT "
+			+"task_id"
+			+", user_id"
+			+", motor_id"
+			+", tech_id"
+			+", task_type"  
+			+", task_desc" 
+			+", task_startDate" 
+			+", task_endDate" 
+			+", task_status" 
+			+", task_deadline" 
+			+", notes "
+			+ "FROM task;");
+	ResultSet taskList = database.RunSQLQuery(sqlString);
+	ArrayList<Task> answer = new ArrayList<Task>();
+	
+	try {
+		while(taskList.next()) {
+			Task m = new Task();
+			m.setTaskId(taskList.getInt(1));
+			m.setUserID(taskList.getInt(2));
+			m.setMotorID(taskList.getInt(3));
+			//m.setTech(taskList.getString(4));
+			m.setTask_type(taskList.getString(5));
+			m.setTask_desc(taskList.getString(6));
+			m.setTask_startDate(taskList.getString(7));
+			m.setTask_endDate(taskList.getString(8));
+			m.setTask_status(taskList.getString(9));
+			m.setTask_deadline(taskList.getString(10));
+			m.setNotes(taskList.getString(11));
+			answer.add(m);
+		}
+	} catch (SQLException e) {
+		System.out.println("Failed to process query in GetAllTasks()");
+		System.out.println("SQL attempted: "+sqlString);	
+		System.out.println("Error: "+e.getErrorCode());
+		System.out.println("Message: "+e.getMessage());			
+		e.printStackTrace();
+	}
+	return answer;
+}
+
+
+public ArrayList<Task> GetAllRemainingTasks(){
+	
+	String sqlString = new String("SELECT "
+			+"task_id"
+			+", task_type"   
+			+", task_startDate" 
+			+", task_endDate" 
+			+", task_status" 
+			+", task_deadline " 
+			+ "FROM task WHERE task_status IN ('progress','suspended', 'alerted manager','alerted customer service');");
+	ResultSet taskList = database.RunSQLQuery(sqlString);
+	ArrayList<Task> answer = new ArrayList<Task>();
+	
+	try {
+		while(taskList.next()) {
+			Task m = new Task();
+			m.setTaskId(taskList.getInt(1));
+			m.setTask_type(taskList.getString(2));
+			m.setTask_startDate(taskList.getString(3));
+			m.setTask_endDate(taskList.getString(4));
+			m.setTask_status(taskList.getString(5));
+			//m.setTask_deadline(taskList.getString(6));
+			answer.add(m);
+		}
+	} catch (SQLException e) {
+		System.out.println("Failed to process query in GetAllTasks()");
+		System.out.println("SQL attempted: "+sqlString);	
+		System.out.println("Error: "+e.getErrorCode());
+		System.out.println("Message: "+e.getMessage());			
+		e.printStackTrace();
+	}
+	return answer;
+}
+
 }
 
 
