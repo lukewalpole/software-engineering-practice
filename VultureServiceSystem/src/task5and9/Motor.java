@@ -1,6 +1,10 @@
 package task5and9;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.concurrent.TimeUnit ;
 
 
 
@@ -13,10 +17,10 @@ public class Motor {
 	String client;
 	String desc;
 	String fault;
-	Date startDate;
-	Date endDate;
-	Date duration;
-	Date estimatedCompletion;
+	LocalDate startDate;
+	LocalDate endDate;
+	int duration;
+	LocalDate estimatedCompletion;
 	String status;
 	boolean delay;
 	String replace;
@@ -31,10 +35,10 @@ public class Motor {
 		 client="";
 		 desc="";
 		 fault="";
-		 startDate= new Date();
-		 endDate=new Date();
-		 duration=new Date();
-		 estimatedCompletion=new Date();
+		 startDate= null;
+		 endDate=null;
+		 duration=0;
+		 estimatedCompletion=null;
 		 status="";
 		 delay=false;
 		 replace="";
@@ -133,6 +137,10 @@ public class Motor {
 	
 	public void setDelay(boolean newDelay) {
 		delay = newDelay;
+		//delay=false;
+		/*if (endDate.isAfter(estimatedCompletion)){
+			delay = true;
+		}*/
 	}
 	
 //
@@ -159,46 +167,53 @@ public class Motor {
 	//
 	
 	
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 	
 	
-	public void setStartDate(Date newStartDate) {
-		startDate = newStartDate;
+	public void setStartDate(String newStartDate) {
+		DateTimeFormatter dtf=DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		startDate = LocalDate.parse(newStartDate,dtf);
+
 	}
 	
 	//
 	
-	public Date getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
 	
 	
-	public void setEndDate(Date newEndDate) {
-		endDate = newEndDate;
+	public void setEndDate(String newEndDate) {
+		
+		DateTimeFormatter dtf=DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		endDate = LocalDate.parse(newEndDate,dtf);
+		//endDate=LocalDate.now();
 	}
 	
 	//
 	
-	public Date getDuration() {
+	public int getDuration() {
 		return duration;
 	}
 	
 	
-	public void setDuration(Date newDuration) {
-		duration = newDuration;
+	public void setDuration(int newDuration) {
+	    long daysBetween =ChronoUnit.DAYS.between(startDate,endDate);
+	    duration=(int)daysBetween;
 	}
 	
 	//
 	
-	public Date getEstimatedCompletion() {
+	public LocalDate getEstimatedCompletion() {
 		return estimatedCompletion;
 	}
 	
 	
-	public void setEstimatedCompletion(Date newEstimatedCompletion) {
-		estimatedCompletion = newEstimatedCompletion;
+	public void setEstimatedCompletion(String newEstimatedCompletion) {
+		DateTimeFormatter dtf=DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		estimatedCompletion = LocalDate.parse(newEstimatedCompletion,dtf);
 		
 	}
 	
@@ -209,7 +224,7 @@ public class Motor {
 	
 	public boolean isLate() {
 		delay=false;
-		if (endDate.after(estimatedCompletion)){
+		if (endDate.isAfter(estimatedCompletion)){
 			delay = true;
 		}
 		return delay;

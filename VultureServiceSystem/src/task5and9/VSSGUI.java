@@ -31,20 +31,20 @@ import java.util.Date;
 
 public class VSSGUI extends JFrame {
 
-	private DateFormat formatter;
+	//private DateFormat formatter;
 	private JPanel contentPane;
 	VSSApp motorHandler;
-	//theMarksHandler
 
 	private static final long serialVersionUID = 1L;
 	
 	private JTable motorTable;
-	//marksTable
-
+	
+	private VSSDatabase data;
 	
 	public VSSGUI(VSSApp themotorHandler) {
+		data = new VSSDatabase();
 		
-		formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		//formatter = new SimpleDateFormat("yyyy-MM-dd");
 		 motorHandler= themotorHandler;
 		
 		 setBackground(Color.GREEN);
@@ -95,10 +95,10 @@ public class VSSGUI extends JFrame {
 						String client;
 						String desc;
 						String fault;
-						Date startDate;
-						Date endDate;
-						Date duration;
-						Date estimatedCompletion;
+						String startDate;
+						String endDate;
+						int duration;
+						String estimatedCompletion;
 						String status;
 						boolean delay;
 						String replace;
@@ -109,10 +109,10 @@ public class VSSGUI extends JFrame {
 						 client="";
 						 desc="";
 						 fault="";
-						 startDate= new Date();
-						 endDate=new Date();
-						 duration=new Date();
-						 estimatedCompletion=new Date();
+						 startDate= "";
+						 endDate="";
+						 duration=0;
+						 estimatedCompletion="";
 						 status="";
 						 delay=false;
 						 replace="";
@@ -124,30 +124,10 @@ public class VSSGUI extends JFrame {
 							 client = dialog.clientField.getText();
 							 desc = dialog.descField.getText();
 							 fault = dialog.faultField.getText();
-							 try {
-								startDate = formatter.parse(dialog.startField.getText());
-							} catch (ParseException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-							 try {
-								endDate = formatter.parse(dialog.endField.getText());
-							} catch (ParseException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-							 try {
-								duration = formatter.parse(dialog.durationField.getText());
-							} catch (ParseException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-							 try {
-								estimatedCompletion = formatter.parse(dialog.estField.getText());
-							} catch (ParseException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
+								startDate = dialog.startField.getText();
+								endDate = dialog.endField.getText();
+								duration = Integer.parseInt(dialog.durationField.getText());
+								estimatedCompletion = dialog.estField.getText();
 							 status = dialog.statusField.getText();
 							 delay = Boolean.parseBoolean(dialog.delayField.getText());
 							 replace = dialog.repField.getText();
@@ -182,7 +162,7 @@ public class VSSGUI extends JFrame {
 					// Find the motor in the selected row.
 					int rowToChange = motorTable.getSelectedRow();
 					
-					// If row is selected, delete it
+					
 					if(rowToChange>=0) {
 						changeMotorDialog dialog = new changeMotorDialog();
 						dialog.lblMotorNameLabel.setText((String) motorTable.getValueAt(rowToChange, 0));
@@ -192,10 +172,10 @@ public class VSSGUI extends JFrame {
 						String client;
 						String desc;
 						String fault;
-						Date startDate;
-						Date endDate;
-						Date duration;
-						Date estimatedCompletion;
+						String startDate;
+						String endDate;
+						int duration;
+						String estimatedCompletion;
 						String status;
 						boolean delay;
 						String replace;
@@ -206,10 +186,10 @@ public class VSSGUI extends JFrame {
 						 client="";
 						 desc="";
 						 fault="";
-						 startDate= new Date();
-						 endDate=new Date();
-						 duration=new Date();
-						 estimatedCompletion=new Date();
+						 startDate= "";
+						 endDate="";
+						 duration=0;
+						 estimatedCompletion="";
 						 status="";
 						 delay=false;
 						 replace="";
@@ -221,30 +201,10 @@ public class VSSGUI extends JFrame {
 							 client = dialog.clientField.getText();
 							 desc = dialog.descField.getText();
 							 fault = dialog.faultField.getText();
-							 try {
-								startDate = formatter.parse(dialog.startField.getText());
-							} catch (ParseException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-							 try {
-								endDate = formatter.parse(dialog.endField.getText());
-							} catch (ParseException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-							 try {
-								duration = formatter.parse(dialog.durationField.getText());
-							} catch (ParseException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-							 try {
-								estimatedCompletion = formatter.parse(dialog.estField.getText());
-							} catch (ParseException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
+								startDate = dialog.startField.getText();
+								endDate = dialog.endField.getText();
+							 duration = Integer.parseInt(dialog.durationField.getText());						 
+								estimatedCompletion = dialog.estField.getText();
 							 status = dialog.statusField.getText();
 							 delay = Boolean.parseBoolean(dialog.delayField.getText());
 							 replace = dialog.repField.getText();
@@ -289,6 +249,41 @@ public class VSSGUI extends JFrame {
 
 			});
 			bottomPanel.add(btnDeleteMotor);
+			
+			JButton btnInspection = new JButton("Inspections");
+			btnInspection.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					// Show the dialog
+					allInspectionDialog dialog = new allInspectionDialog(themotorHandler);
+					dialog.setVisible(true);
+					dialog.displayTableData(data.GetAllInspections());
+
+				}
+			});
+			bottomPanel.add(btnInspection);
+			
+			JButton btnTasks = new JButton("Tasks");
+			btnTasks.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					allTaskDialog dialog = new allTaskDialog(themotorHandler);
+					dialog.setVisible(true);
+					dialog.displayTableData(data.GetAllTasks());
+				}
+			});
+			bottomPanel.add(btnTasks);
+			
+			JButton btnDelays = new JButton("Delays");
+			btnDelays.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					delayDialog dialog = new delayDialog(themotorHandler);
+					dialog.setVisible(true);
+					dialog.displayTableData(data.GetAllRemainingTasks());
+				}
+			});
+			bottomPanel.add(btnDelays);
+			
+			JButton btnTaskAllocation = new JButton("Task Allocation");
+			bottomPanel.add(btnTaskAllocation);
 			
 			JPanel topPanel = new JPanel();
 			contentPane.add(topPanel, BorderLayout.NORTH);
