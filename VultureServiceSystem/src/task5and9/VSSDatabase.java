@@ -28,8 +28,8 @@ private DateFormat formatter;
 	
 	// functions to set motor status
 	
-		public void updateMotorStatus (int motorID, String motorStatus) {
-			String sqlString = new String("UPDATE motor SET job_status= '"+ motorStatus +"' WHERE motor_id= "+ motorID+ ";");
+		public void updateMotorStatus (String motorName, String motorStatus) {
+			String sqlString = new String("UPDATE motor SET job_status= '"+ motorStatus +"' WHERE motor_name= '"+ motorName+ "';");
 
 			boolean success = database.RunSQL(sqlString);
 			
@@ -91,7 +91,7 @@ private DateFormat formatter;
 		// Should probably add a message if the motor does not exist.
 		
 		//"DELETE FROM motor WHERE motor_name = '"+motorName+"';"
-		String sqlString = new String("DELETE FROM motor;");
+		String sqlString = new String("DELETE FROM motor WHERE motor_name = '"+motorName+"';");
 		boolean success = database.RunSQL(sqlString);
 		if(!success) {
 			System.out.println("Failed to run query: "+sqlString);
@@ -265,7 +265,7 @@ private DateFormat formatter;
 		// Should probably add a message if the motor does not exist.
 		
 		//"DELETE FROM task WHERE task_id = '"+ID+"';"
-		
+		//WHERE task_id = '"+ID+"'
 		String sqlString = new String("DELETE FROM task WHERE task_id = '"+ID+"';");
 		boolean success = database.RunSQL(sqlString);
 		if(!success) {
@@ -386,16 +386,16 @@ public ArrayList<Task> GetAllTasks(){
 		while(taskList.next()) {
 			Task m = new Task();
 			m.setTaskId(taskList.getInt(1));
-			//m.setUserID(taskList.getInt(2));
-			m.setMotorID(taskList.getInt(3));
-			//m.setTech(taskList.getString(4));
-			m.setTask_type(taskList.getString(5));
-			m.setTask_desc(taskList.getString(6));
-			m.setTask_startDate(taskList.getString(7));
-			m.setTask_endDate(taskList.getString(8));
-			m.setTask_status(taskList.getString(9));
-			m.setTask_deadline(taskList.getString(10));
-			m.setNotes(taskList.getString(11));
+			//m.setUserID(taskList.getInt(1));
+			m.setMotorID(taskList.getInt(2));
+			//m.setTech(taskList.getString(3));
+			m.setTask_type(taskList.getString(4));
+			m.setTask_desc(taskList.getString(5));
+			m.setTask_startDate(taskList.getString(6));
+			m.setTask_endDate(taskList.getString(7));
+			m.setTask_status(taskList.getString(8));
+			m.setTask_deadline(taskList.getString(9));
+			m.setNotes(taskList.getString(10));
 			answer.add(m);
 		}
 	} catch (SQLException e) {

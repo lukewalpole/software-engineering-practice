@@ -35,6 +35,7 @@ public class VSSApp {
 		theMainWindow = new VSSGUI(this);
 		theMainWindow.setVisible(true);
 		theMainWindow.displayTableData(data.GetAllMotors());
+		//data.DeleteTask(0);
 		
 		//InspecWindow = new allInspectionDialog(this);
 		//InspecWindow.setVisible(true);
@@ -130,7 +131,7 @@ public class VSSApp {
 		m.setRep(replace);	
 		m.setNotes(notes);
 		data.AddMotor(m);
-		
+		//System.out.println(m);
 		// Tempted to convert to an Object[][] at this point.
 		// But I'll let the GUI do it, since it will be replaced by
 		// database ResultSet, anyway.

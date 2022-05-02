@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-public class newMotorDialog extends JFrame {
+public class newMotorDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	public JTextField nameField;
@@ -34,8 +34,8 @@ public class newMotorDialog extends JFrame {
 
 	public newMotorDialog() {
 		setTitle("New Motor");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//setModal(true);
+		//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setModal(true);
 		setBounds(100, 100, 419, 523);
 		getContentPane().setLayout(null);
 		contentPanel.setBounds(350, 127, 45, 192);
@@ -135,7 +135,7 @@ public class newMotorDialog extends JFrame {
 						JButton okButton = new JButton("OK");
 						okButton.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
-								 //setModal(false);
+								 setModal(false);
 						         dispose();
 							}
 						});
@@ -159,7 +159,7 @@ public class newMotorDialog extends JFrame {
 								delayField.setText("");
 								repField.setText("");
 								notesField.setText("");
-								 //setModal(false);
+								 setModal(false);
 						         dispose();
 							}
 						});
