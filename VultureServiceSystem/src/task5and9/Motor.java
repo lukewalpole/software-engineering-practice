@@ -178,6 +178,11 @@ public class Motor {
 
 	}
 	
+	public void setStartDateAdding(LocalDate newStartDate) {
+		DateTimeFormatter dtf=DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		startDate = LocalDate.now();
+
+	}
 	//
 	
 	public LocalDate getEndDate() {
@@ -188,8 +193,8 @@ public class Motor {
 	public void setEndDate(String newEndDate) {
 		
 		DateTimeFormatter dtf=DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		endDate = LocalDate.parse(newEndDate,dtf);
-		//endDate=LocalDate.now();
+		//endDate = LocalDate.parse(newEndDate,dtf);
+		endDate=LocalDate.now();
 	}
 	
 	//
