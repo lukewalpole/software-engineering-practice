@@ -100,7 +100,8 @@ public class VSSGUI extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					int selectedRow= motorTable.getSelectedRow();
 					if(selectedRow>=0) {
-						int taskID= (int)motorTable.getValueAt(selectedRow, 0);
+						//int taskID=(int)motorTable.getValueAt(selectedRow, 0);
+						String taskID= (String) motorTable.getValueAt(selectedRow, 0);
 						data.updateMotorStatus(taskID, "New");
 						displayTableData(data.GetAllMotors());
 						motor.setStatus("New");
@@ -114,7 +115,8 @@ public class VSSGUI extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					int selectedRow= motorTable.getSelectedRow();
 					if(selectedRow>=0) {
-						int taskID= (int)motorTable.getValueAt(selectedRow, 0);
+						//int taskID= (int)motorTable.getValueAt(selectedRow, 0);
+						String taskID= (String) motorTable.getValueAt(selectedRow, 0);
 						data.updateMotorStatus(taskID, "In Progress");
 						displayTableData(data.GetAllMotors());
 						motor.setStatus("In Progress");
@@ -128,7 +130,8 @@ public class VSSGUI extends JFrame {
 					public void actionPerformed(ActionEvent e) {
 						int selectedRow= motorTable.getSelectedRow();
 						if(selectedRow>=0) {
-							int taskID= (int)motorTable.getValueAt(selectedRow, 0);
+							//int taskID= (int)motorTable.getValueAt(selectedRow, 0);
+							String taskID= (String) motorTable.getValueAt(selectedRow, 0);
 							data.updateMotorStatus(taskID, "Complete");
 							displayTableData(data.GetAllMotors());
 							motor.setStatus("Complete");
@@ -200,6 +203,7 @@ public class VSSGUI extends JFrame {
 							 delay = Boolean.parseBoolean(dialog.delayField.getText());
 							 replace = dialog.repField.getText();
 							 notes = dialog.notesField.getText();
+							 //System.out.println(manufacturer+client+desc+fault+ startDate+endDate+duration+estimatedCompletion+status+delay+replace+notes);
 						} catch (NumberFormatException ex) {
 							ex.printStackTrace();
 						}

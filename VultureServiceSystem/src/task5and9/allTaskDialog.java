@@ -87,6 +87,7 @@ public class allTaskDialog extends JDialog {
 								ex.printStackTrace();
 							}
 							
+							System.out.println(motorID+tasktype+taskDesc+taskStart+taskEnd+taskStatus+taskDeadline+notes);
 							motorHandler.addTask(
 									motorID,
 									//tech,
@@ -173,7 +174,7 @@ public class allTaskDialog extends JDialog {
 							int selectedRow= table.getSelectedRow();
 							if(selectedRow>=0) {
 								int taskID= (int)table.getValueAt(selectedRow, 0);
-								data.updateTaskStatus(taskID, "New");
+								data.updateTaskStatus(taskID, "In Progress");
 								displayTableData(data.GetAllTasks());
 								task.setTask_status("In Progress");
 							}
@@ -188,9 +189,9 @@ public class allTaskDialog extends JDialog {
 							int selectedRow= table.getSelectedRow();
 							if(selectedRow>=0) {
 								int taskID= (int)table.getValueAt(selectedRow, 0);
-								data.updateTaskStatus(taskID, "New");
+								data.updateTaskStatus(taskID, "Complete");
 								displayTableData(data.GetAllTasks());
-								task.setTask_status("New");
+								task.setTask_status("Complete");
 							}
 						}
 					});

@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-public class newTaskDialog extends JFrame {
+public class newTaskDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	public JTextField motorID;
@@ -29,7 +29,7 @@ public class newTaskDialog extends JFrame {
 	
 	public newTaskDialog() {
 		setTitle("Add Task");
-		//setModal(true);
+		setModal(true);
 		
 		setBounds(100, 100, 921, 530);
 		getContentPane().setLayout(null);
@@ -126,7 +126,7 @@ public class newTaskDialog extends JFrame {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						// setModal(false);
+						 setModal(false);
 				         dispose();
 					}
 				});
@@ -147,7 +147,7 @@ public class newTaskDialog extends JFrame {
 						taskStatus.setText("");
 						taskDeadline.setText("");
 						notesField.setText("");
-						 //setModal(false);
+						 setModal(false);
 				         dispose();
 					}
 				});
