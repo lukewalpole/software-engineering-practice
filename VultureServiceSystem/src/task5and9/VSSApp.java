@@ -121,7 +121,7 @@ public class VSSApp {
 		m.setClient(client);
 		m.setDesc(desc);	
 		m.setFault(fault);
-		m.setStartDate(startDate);
+		m.setStartDateAdding(LocalDate.now());
 		m.setEndDate(endDate);
 		m.setDuration(duration);
 	    m.setEstimatedCompletion(estimatedCompletion);
@@ -171,7 +171,7 @@ public class VSSApp {
 	
 	//task
 	
-	void addTask(int userID,
+	void addTask(
 			int motorID,
 			//String tech,
 			String taskType,
@@ -183,7 +183,7 @@ public class VSSApp {
 			String notes) {
 		Task m = new Task();
 		m.setMotorID(motorID);
-		m.setUserID(userID);
+		//m.setUserID(userID);
 		m.setTask_type(taskType);
 		m.setTask_desc(taskDesc);
 		m.setTask_startDate(taskStart);

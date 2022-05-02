@@ -22,6 +22,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import Task7.Task;
+
 import java.text.DateFormat;
 //import java.text.Format;
 import java.text.ParseException;
@@ -34,6 +36,7 @@ public class VSSGUI extends JFrame {
 	//private DateFormat formatter;
 	private JPanel contentPane;
 	VSSApp motorHandler;
+	
 
 	private static final long serialVersionUID = 1L;
 	
@@ -41,11 +44,16 @@ public class VSSGUI extends JFrame {
 	
 	private VSSDatabase data;
 	
+	private Motor motor;
+	
 	public VSSGUI(VSSApp themotorHandler) {
 		data = new VSSDatabase();
 		
+		motor = new Motor();
+		
 		//formatter = new SimpleDateFormat("yyyy-MM-dd");
 		 motorHandler= themotorHandler;
+		 
 		
 		 setBackground(Color.GREEN);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -54,20 +62,80 @@ public class VSSGUI extends JFrame {
 			JMenuBar menuBar = new JMenuBar();
 			setJMenuBar(menuBar);
 			
-			JMenu mnNewMenu = new JMenu("File");
+			JMenu mnNewMenu = new JMenu("Filter");
 			menuBar.add(mnNewMenu);
 			
-			JMenuItem mntmLoadItem = new JMenuItem("Load");
-			mnNewMenu.add(mntmLoadItem);
+			JMenuItem mntmNewMenuItem = new JMenuItem("New");
+			mntmNewMenuItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					displayMotorStatus("New");
+				}
+			});
+			mnNewMenu.add(mntmNewMenuItem);
 			
-			JMenuItem mntmSaveItem = new JMenuItem("Save");
-			mnNewMenu.add(mntmSaveItem);
+			JMenuItem mntmFilterItem = new JMenuItem("In Progress");
+			mntmFilterItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					displayMotorStatus("In Progress");
+				}
+			});
+			mnNewMenu.add(mntmFilterItem);
 			
-			JMenu mnHelpMenu = new JMenu("Help");
+			JMenuItem mntmCompleteItem = new JMenuItem("Complete");
+			mntmCompleteItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					displayMotorStatus("Complete");
+				}
+			});
+			mnNewMenu.add(mntmCompleteItem);
+			
+			
+			
+			// set motor statuses 
+			JMenu mnHelpMenu = new JMenu("Set Status");
 			menuBar.add(mnHelpMenu);
 			
-			JMenuItem mntmSendChocolateItem = new JMenuItem("Send Chocolate");
-			mnHelpMenu.add(mntmSendChocolateItem);
+			JMenuItem mntmSetNewMenuItem = new JMenuItem("New");
+			mntmSetNewMenuItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					int selectedRow= motorTable.getSelectedRow();
+					if(selectedRow>=0) {
+						int taskID= (int)motorTable.getValueAt(selectedRow, 0);
+						data.updateMotorStatus(taskID, "New");
+						displayTableData(data.GetAllMotors());
+						motor.setStatus("New");
+					}
+				}
+			});
+			mnHelpMenu.add(mntmSetNewMenuItem);
+			
+			JMenuItem mntmSetInProgress = new JMenuItem("In Progress");
+			mntmSetInProgress.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					int selectedRow= motorTable.getSelectedRow();
+					if(selectedRow>=0) {
+						int taskID= (int)motorTable.getValueAt(selectedRow, 0);
+						data.updateMotorStatus(taskID, "In Progress");
+						displayTableData(data.GetAllMotors());
+						motor.setStatus("In Progress");
+					}
+				}
+			});
+			mnHelpMenu.add(mntmSetInProgress);
+			
+			JMenuItem mntmSetComplete = new JMenuItem("Complete");
+			mntmSetComplete.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						int selectedRow= motorTable.getSelectedRow();
+						if(selectedRow>=0) {
+							int taskID= (int)motorTable.getValueAt(selectedRow, 0);
+							data.updateMotorStatus(taskID, "Complete");
+							displayTableData(data.GetAllMotors());
+							motor.setStatus("Complete");
+						}
+					}
+			});
+			mnHelpMenu.add(mntmSetComplete);
 			contentPane = new JPanel();
 			contentPane.setBackground(Color.DARK_GRAY);
 			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -282,9 +350,6 @@ public class VSSGUI extends JFrame {
 			});
 			bottomPanel.add(btnDelays);
 			
-			JButton btnTaskAllocation = new JButton("Task Allocation");
-			bottomPanel.add(btnTaskAllocation);
-			
 			JPanel topPanel = new JPanel();
 			contentPane.add(topPanel, BorderLayout.NORTH);
 			topPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -334,6 +399,32 @@ public class VSSGUI extends JFrame {
 			}
 		}
 			
-	}
+		//display motor status
+		void displayMotorStatus(String status) {
+			  DefaultTableModel tableModel = (DefaultTableModel) motorTable.getModel();
+			  tableModel.setRowCount(0);
+			  for(Motor t:data.GetAllMotors()) {
+				 //if the parameter matches any of the tasks with that status, then display the tasks
+				  if(t.getStatus().equals(status)) {
+							
+								tableModel.addRow(new Object[] {t.getMotorName(),
+										t.getMotorManufacturer(),
+										t.getClient(),
+										t.getDesc(),
+										t.getFault(),
+										t.getStartDate(),
+										t.getEndDate(),
+										t.getDuration(),
+										t.getEstimatedCompletion(),
+										t.getStatus(),
+										t.getDelay(),
+										t.getRep(),
+										t.getNotes()});
+							}
+					 }
+				 
+			  }
+		}
+	
 
 

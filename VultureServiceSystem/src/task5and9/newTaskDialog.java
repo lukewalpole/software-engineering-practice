@@ -9,51 +9,34 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-public class newTaskDialog extends JDialog {
+public class newTaskDialog extends JFrame {
 
 	private final JPanel contentPanel = new JPanel();
-	public JTextField userID;
 	public JTextField motorID;
 	//public JTextField tech;
 	public JTextField taskType;
 	public JTextField taskDesc;
-	public JTextField taskStart;
-	public JTextField taskEnd;
 	public JTextField taskStatus;
 	public JTextField taskDeadline;
 	public JTextField notesField;
 	
 	
 	public newTaskDialog() {
-		setModal(true);
-		setBounds(100, 100, 450, 300);
-		getContentPane().setLayout(new BorderLayout());
+		setTitle("Add Task");
+		//setModal(true);
+		
+		setBounds(100, 100, 921, 530);
+		getContentPane().setLayout(null);
+		contentPanel.setBounds(0, 0, 890, 440);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(new GridLayout(4, 2, 0, 0));
-		{
-			JLabel lblNewLabel_2 = new JLabel("New Task");
-			lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 18));
-			contentPanel.add(lblNewLabel_2);
-		}
-		{
-			JLabel lblNewLabel_3 = new JLabel("");
-			contentPanel.add(lblNewLabel_3);
-		}
-		{
-			JLabel lblNewLabel1 = new JLabel("User ID");
-			contentPanel.add(lblNewLabel1);
-		}
-		{
-			userID = new JTextField();
-			contentPanel.add(userID);
-			userID.setColumns(10);
-		}
+		getContentPane().add(contentPanel);
+		contentPanel.setLayout(new GridLayout(0, 2, 0, 0));
 		{
 			JLabel lblNewLabel2 = new JLabel("Motor ID");
 			contentPanel.add(lblNewLabel2);
@@ -63,17 +46,6 @@ public class newTaskDialog extends JDialog {
 			contentPanel.add(motorID);
 			motorID.setColumns(10);
 		}
-		
-		
-		/*{
-			JLabel lblNewLabel = new JLabel("Tech");
-			contentPanel.add(lblNewLabel);
-		}
-		{
-			tech = new JTextField();
-			contentPanel.add(tech);
-			tech.setColumns(10);
-		}*/
 		
 		
 		
@@ -95,26 +67,6 @@ public class newTaskDialog extends JDialog {
 			taskDesc = new JTextField();
 			contentPanel.add(taskDesc);
 			taskDesc.setColumns(10);
-		}
-		
-		{
-			JLabel lblNewLabel7 = new JLabel("Start Date");
-			contentPanel.add(lblNewLabel7);
-		}
-		{
-			taskStart = new JTextField();
-			contentPanel.add(taskStart);
-			taskStart.setColumns(10);
-		}
-		
-		{
-			JLabel lblNewLabel8 = new JLabel("End Date");
-			contentPanel.add(lblNewLabel8);
-		}
-		{
-			taskEnd = new JTextField();
-			contentPanel.add(taskEnd);
-			taskEnd.setColumns(10);
 		}
 		
 		{
@@ -146,6 +98,19 @@ public class newTaskDialog extends JDialog {
 			contentPanel.add(notesField);
 			notesField.setColumns(10);
 		}
+		
+		
+		/*{
+			JLabel lblNewLabel = new JLabel("Tech");
+			contentPanel.add(lblNewLabel);
+		}
+		{
+			tech = new JTextField();
+			contentPanel.add(tech);
+			tech.setColumns(10);
+		}*/
+		
+		{
 
 	
 	
@@ -155,16 +120,17 @@ public class newTaskDialog extends JDialog {
 		
 		{
 			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			buttonPane.setBounds(0, 451, 912, 33);
+			getContentPane().add(buttonPane);
 			{
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						 setModal(false);
+						// setModal(false);
 				         dispose();
 					}
 				});
+				buttonPane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
@@ -173,24 +139,23 @@ public class newTaskDialog extends JDialog {
 				JButton cancelButton = new JButton("Cancel");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						userID.setText("");
+						//userID.setText("");
 						motorID.setText("");
 						//tech.setText("");
 						taskType.setText("");
 						taskDesc.setText("");
-						taskStart.setText("");
-						taskEnd.setText("");
 						taskStatus.setText("");
 						taskDeadline.setText("");
 						notesField.setText("");
-						 setModal(false);
+						 //setModal(false);
 				         dispose();
 					}
 				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
+			
 			}
 		}
+		}
 	}
-
 }

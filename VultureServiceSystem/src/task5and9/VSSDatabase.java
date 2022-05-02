@@ -25,6 +25,30 @@ private DateFormat formatter;
 		database.Connect("C:\\Users\\User\\Documents\\GitHub\\software-engineering-practice\\VultureServiceSystem\\database.db");
 	}
 	
+	
+	// functions to set motor status
+	
+		public void updateMotorStatus (int motorID, String motorStatus) {
+			String sqlString = new String("UPDATE motor SET job_status= '"+ motorStatus +"' WHERE motor_id= "+ motorID+ ";");
+
+			boolean success = database.RunSQL(sqlString);
+			
+			if(!success) {
+				System.out.println("Failed to run query: "+sqlString);
+			}
+		}
+		
+		/*** function to update the task in DB ***/
+		public void updateTaskStatus(int taskID, String taskStatus) { 
+			String sqlString = new String("UPDATE task SET task_status= '"+ taskStatus +"' WHERE task_id= "+ taskID+ ";");
+
+			boolean success = database.RunSQL(sqlString);
+			
+			if(!success) {
+				System.out.println("Failed to run query: "+sqlString);
+			}
+			
+		}
 	/**
 	* Adds a new student to the DBConnection database
 	* Sends error string to System.out if the DBConnection reports a failure
@@ -85,7 +109,7 @@ private DateFormat formatter;
 		// Should probably add a message if the motor does not exist.
 		
 		
-		String sqlString = new String("UPDATE task SET task_status='suspended' WHERE task_id='"+ID+"';");
+		String sqlString = new String("UPDATE task SET task_status='Suspended' WHERE task_id='"+ID+"';");
 		
 		boolean success = database.RunSQL(sqlString);
 		if(!success) {
@@ -96,7 +120,7 @@ private DateFormat formatter;
 	public void resumeTask(int ID) {
 		// Should probably add a message if the motor does not exist.
 		
-		String sqlString = new String("UPDATE task SET task_status='progress' WHERE task_id='"+ID+"';");
+		String sqlString = new String("UPDATE task SET task_status='In Progress' WHERE task_id='"+ID+"';");
 		
 		boolean success = database.RunSQL(sqlString);
 		if(!success) {
@@ -108,7 +132,7 @@ private DateFormat formatter;
 		// Should probably add a message if the motor does not exist.
 		
 		
-		String sqlString = new String("UPDATE task SET task_status='complete' WHERE task_id='"+ID+"';");
+		String sqlString = new String("UPDATE task SET task_status='Complete' WHERE task_id='"+ID+"';");
 		
 		boolean success = database.RunSQL(sqlString);
 		if(!success) {
@@ -213,11 +237,11 @@ private DateFormat formatter;
 	}
 	
 	//add task
-	
+	//"INSERT INTO task(user_id,
 	public void AddTask(Task m) {
-		String sqlString = new String("INSERT INTO task(user_id, motor_id, task_type, task_desc,task_startDate,task_endDate,task_status,task_deadline, notes) VALUES('");
+		String sqlString = new String("INSERT INTO task( motor_id, task_type, task_desc,task_startDate,task_endDate,task_status,task_deadline, notes) VALUES('");
 	    //sqlString = sqlString + m.getID()+"', '";
-		sqlString = sqlString + m.getUserID()+"', '";
+		//sqlString = sqlString + m.getUserID()+"', '";
 		sqlString = sqlString + m.getMotorID()+"', '";
 		sqlString = sqlString + m.getTask_type()+"', '";
 		sqlString = sqlString + m.getTask_desc()+"', '";
@@ -344,7 +368,7 @@ public ArrayList<Task> GetAllTasks(){
 	
 	String sqlString = new String("SELECT "
 			+"task_id"
-			+", user_id"
+			//+", user_id"
 			+", motor_id"
 			+", tech_id"
 			+", task_type"  
@@ -362,7 +386,7 @@ public ArrayList<Task> GetAllTasks(){
 		while(taskList.next()) {
 			Task m = new Task();
 			m.setTaskId(taskList.getInt(1));
-			m.setUserID(taskList.getInt(2));
+			//m.setUserID(taskList.getInt(2));
 			m.setMotorID(taskList.getInt(3));
 			//m.setTech(taskList.getString(4));
 			m.setTask_type(taskList.getString(5));
@@ -394,7 +418,7 @@ public ArrayList<Task> GetAllRemainingTasks(){
 			+", task_endDate" 
 			+", task_status" 
 			+", task_deadline " 
-			+ "FROM task WHERE task_status IN ('progress','suspended', 'alerted manager','alerted customer service');");
+			+ "FROM task WHERE task_status IN ('High Priority', 'Normal Priority','In Progress','Suspended', 'Alerted Manager','Alerted Customer Service');");
 	ResultSet taskList = database.RunSQLQuery(sqlString);
 	ArrayList<Task> answer = new ArrayList<Task>();
 	

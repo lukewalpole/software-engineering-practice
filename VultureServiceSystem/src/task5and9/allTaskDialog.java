@@ -11,6 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -19,17 +20,23 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.awt.event.ActionEvent;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 public class allTaskDialog extends JDialog {
 	private JTable table;
 	private DateFormat formatter;
 	VSSApp motorHandler;
+	VSSDatabase data;
+	Task task;
 	
 	public allTaskDialog(VSSApp themotorHandler) {
 		
 		DateTimeFormatter dtf=DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		motorHandler= themotorHandler;
-		
+		data = new VSSDatabase();
+		task = new Task();
 		setBounds(100, 100, 633, 410);
 		getContentPane().setLayout(new BorderLayout());
 		{
@@ -49,26 +56,30 @@ public class allTaskDialog extends JDialog {
 						// If the name is empty, then Cancel was probably pressed
 						if(!taskType.isEmpty()){
 							// Get the rest from the fields
-							int userID=0;
+							//int userID=0;
 							int motorID=0;
 							//String tech="";
 							String tasktype="";
 							String taskDesc="";
-							String taskStart="";
-							String taskEnd="";
+							
+							LocalDate ldtaskstart=LocalDate.now();
+							String taskStart=ldtaskstart.toString();
+							LocalDate ldtaskend=LocalDate.now();
+							String taskEnd=ldtaskend.toString();
+							
 							String taskStatus="";
 							String taskDeadline = "";
 							String notes="";
 							
 							 
 							try {
-								userID = Integer.parseInt(dialog.userID.getText());
+								//userID = Integer.parseInt(dialog.userID.getText());
 								  motorID = Integer.parseInt(dialog.motorID.getText());
 								 // tech = dialog.tech.getText();
 								  tasktype = dialog.taskType.getText();
 								  taskDesc = dialog.taskDesc.getText();
-								  taskStart = dialog.taskStart.getText();
-								  taskEnd = dialog.taskEnd.getText();
+								  //taskStart = dialog.taskStart.getText();
+								  //taskEnd = dialog.taskEnd.getText();
 								  taskStatus = dialog.taskStatus.getText();
 								 taskDeadline = dialog.taskDeadline.getText();
 								 notes = dialog.notesField.getText();
@@ -76,7 +87,7 @@ public class allTaskDialog extends JDialog {
 								ex.printStackTrace();
 							}
 							
-							motorHandler.addTask(userID,
+							motorHandler.addTask(
 									motorID,
 									//tech,
 									tasktype,
@@ -121,10 +132,70 @@ public class allTaskDialog extends JDialog {
 					new Object[][] {
 					},
 					new String[] {
-						"Task ID","User ID","Motor ID", "Tech ID", "Task Type", "Description", "Start Date", "End Date", "Status", "Deadline", "Notes"
+						"Task ID","Motor ID", "Tech ID", "Task Type", "Description", "Start Date", "End Date", "Status", "Deadline", "Notes"
 					}
 				));
 				scrollPane.setViewportView(table);
+			}
+		}
+		{
+			JMenuBar menuBar = new JMenuBar();
+			setJMenuBar(menuBar);
+			{
+				JMenu mnNewMenu = new JMenu("Filter");
+				menuBar.add(mnNewMenu);
+				{
+					JMenuItem mntmNewMenuItem_7 = new JMenuItem("In Progress");
+					mntmNewMenuItem_7.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							displayTaskStatus("In Progress");
+						}
+					});
+					mnNewMenu.add(mntmNewMenuItem_7);
+				}
+				{
+					JMenuItem mntmNewMenuItem_6 = new JMenuItem("Complete");
+					mntmNewMenuItem_6.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							displayTaskStatus("Complete");
+						}
+					});
+					mnNewMenu.add(mntmNewMenuItem_6);
+				}
+			}
+			{
+				JMenu mnNewMenu_1 = new JMenu("Set Status");
+				menuBar.add(mnNewMenu_1);
+				{
+					JMenuItem mntmNewMenuItem_3 = new JMenuItem("In Progress");
+					mntmNewMenuItem_3.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							int selectedRow= table.getSelectedRow();
+							if(selectedRow>=0) {
+								int taskID= (int)table.getValueAt(selectedRow, 0);
+								data.updateTaskStatus(taskID, "New");
+								displayTableData(data.GetAllTasks());
+								task.setTask_status("In Progress");
+							}
+						}
+					});
+					mnNewMenu_1.add(mntmNewMenuItem_3);
+				}
+				{
+					JMenuItem mntmNewMenuItem_2 = new JMenuItem("Complete");
+					mntmNewMenuItem_2.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							int selectedRow= table.getSelectedRow();
+							if(selectedRow>=0) {
+								int taskID= (int)table.getValueAt(selectedRow, 0);
+								data.updateTaskStatus(taskID, "New");
+								displayTableData(data.GetAllTasks());
+								task.setTask_status("New");
+							}
+						}
+					});
+					mnNewMenu_1.add(mntmNewMenuItem_2);
+				}
 			}
 		}
 	}
@@ -139,7 +210,7 @@ void displayTableData(ArrayList<Task> tableData){
 		// Some safety code missing here
 		for(Task s: tableData) {
 			tableModel.addRow(new Object[] {s.getTaskId(),
-					s.getUserID(),
+					//s.getUserID(),
 					s.getMotorID(),
 					s.getTech(),
 					s.getTask_type(),
@@ -153,4 +224,27 @@ void displayTableData(ArrayList<Task> tableData){
 	}
 	
 	
+void displayTaskStatus(String status) {
+	  DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+	  tableModel.setRowCount(0);
+	  for(Task t:data.GetAllTasks()) {
+		  if(t.getTask_status().equals(status)) {
+						tableModel.addRow(new Object[] {t.getTaskId(),
+								//s.getUserID(),
+								t.getMotorID(),
+								t.getTech(),
+								t.getTask_type(),
+								t.getTask_desc(),
+								t.getTask_startDate(),
+								t.getTask_endDate(),
+								t.getTask_status(),
+								t.getTask_deadline(),
+								t.getNotes()});
+					
+			 }
+		 
+	  }
+}
+
+
 }
