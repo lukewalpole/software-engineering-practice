@@ -23,6 +23,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import Task7.Task;
+import task10.statisticsDialog;
 
 import java.text.DateFormat;
 //import java.text.Format;
@@ -353,6 +354,16 @@ public class VSSGUI extends JFrame {
 				}
 			});
 			bottomPanel.add(btnDelays);
+			
+			JButton btnStatistics = new JButton("Statistics");
+			btnStatistics.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					statisticsDialog dialog = new statisticsDialog(themotorHandler);
+					dialog.setVisible(true);
+					//dialog.displayTableData(data.GetAllRemainingTasks());
+				}
+			});
+			bottomPanel.add(btnStatistics);
 			
 			JPanel topPanel = new JPanel();
 			contentPane.add(topPanel, BorderLayout.NORTH);
