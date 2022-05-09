@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/mariu/eclipse-workspace/VultureServiceSystem/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/mariu/eclipse-workspace/VultureServiceSystem/jgoodies-common-1.2.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/mariu/eclipse-workspace/VultureServiceSystem/jgoodies-looks-2.4.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/mariu/eclipse-workspace/VultureServiceSystem/junit-4.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/mariu/eclipse-workspace/VultureServiceSystem/sqlite-jdbc-3.36.0.3.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
