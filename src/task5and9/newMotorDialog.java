@@ -64,6 +64,8 @@ public class newMotorDialog extends JDialog {
 			lblNewLabel14.setBounds(10, 398, 94, 26);
 			getContentPane().add(lblNewLabel14);
 		}
+		
+		/*
 		{
 			delayField = new JTextField();
 			delayField.setBounds(111, 378, 215, 20);
@@ -74,7 +76,9 @@ public class newMotorDialog extends JDialog {
 			JLabel lblNewLabel13 = new JLabel("Delay");
 			lblNewLabel13.setBounds(20, 378, 94, 20);
 			getContentPane().add(lblNewLabel13);
-		}
+		}*/
+		
+		/*
 		{
 			statusField = new JTextField();
 			statusField.setBounds(111, 347, 215, 20);
@@ -85,7 +89,11 @@ public class newMotorDialog extends JDialog {
 			JLabel lblNewLabel12 = new JLabel("Status");
 			lblNewLabel12.setBounds(20, 347, 113, 20);
 			getContentPane().add(lblNewLabel12);
-		}
+		}*/
+		
+		
+		
+		
 		{
 			estField = new JTextField();
 			estField.setBounds(141, 313, 185, 20);
@@ -97,6 +105,8 @@ public class newMotorDialog extends JDialog {
 			lblNewLabel16.setBounds(10, 310, 110, 26);
 			getContentPane().add(lblNewLabel16);
 		}
+		
+		/*
 		{
 			durationField = new JTextField();
 			durationField.setBounds(106, 282, 220, 20);
@@ -118,7 +128,7 @@ public class newMotorDialog extends JDialog {
 			JLabel lblNewLabel9 = new JLabel("End Date");
 			lblNewLabel9.setBounds(23, 251, 98, 20);
 			getContentPane().add(lblNewLabel9);
-		}
+		}*/
 		
 			
 			
@@ -167,6 +177,8 @@ public class newMotorDialog extends JDialog {
 						buttonPane.add(cancelButton);
 					}
 				}
+				
+				/*
 				{
 					startField = new JTextField();
 					startField.setBounds(111, 211, 215, 20);
@@ -178,6 +190,8 @@ public class newMotorDialog extends JDialog {
 					lblNewLabel8.setBounds(23, 212, 81, 18);
 					getContentPane().add(lblNewLabel8);
 				}
+				*/
+				
 				{
 					faultField = new JTextField();
 					faultField.setBounds(106, 181, 220, 20);

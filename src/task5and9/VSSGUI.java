@@ -23,7 +23,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import Task7.Task;
-import Task8.LogInLauncher;
+import task10.statisticsDialog;
 
 import java.text.DateFormat;
 //import java.text.Format;
@@ -140,18 +140,6 @@ public class VSSGUI extends JFrame {
 					}
 			});
 			mnHelpMenu.add(mntmSetComplete);
-			
-			JPanel fillingTopPanel = new JPanel();
-			menuBar.add(fillingTopPanel);
-			
-			JButton btnLogOut = new JButton("Log Out");
-			btnLogOut.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					new LogInLauncher();
-					dispose();
-				}
-			});
-			menuBar.add(btnLogOut);
 			contentPane = new JPanel();
 			contentPane.setBackground(Color.DARK_GRAY);
 			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -197,7 +185,7 @@ public class VSSGUI extends JFrame {
 						 endDate="";
 						 duration=0;
 						 estimatedCompletion="";
-						 status="";
+						 status="New";
 						 delay=false;
 						 replace="";
 						 notes="";
@@ -208,12 +196,12 @@ public class VSSGUI extends JFrame {
 							 client = dialog.clientField.getText();
 							 desc = dialog.descField.getText();
 							 fault = dialog.faultField.getText();
-								startDate = dialog.startField.getText();
-								endDate = dialog.endField.getText();
-								duration = Integer.parseInt(dialog.durationField.getText());
+								//startDate = dialog.startField.getText();
+								//endDate = dialog.endField.getText();
+								//duration = Integer.parseInt(dialog.durationField.getText());
 								estimatedCompletion = dialog.estField.getText();
-							 status = dialog.statusField.getText();
-							 delay = Boolean.parseBoolean(dialog.delayField.getText());
+							 //status = dialog.statusField.getText();
+							 //delay = Boolean.parseBoolean(dialog.delayField.getText());
 							 replace = dialog.repField.getText();
 							 notes = dialog.notesField.getText();
 							 //System.out.println(manufacturer+client+desc+fault+ startDate+endDate+duration+estimatedCompletion+status+delay+replace+notes);
@@ -226,12 +214,12 @@ public class VSSGUI extends JFrame {
 								 client,
 								 desc,
 								 fault,
-								 startDate,
-								 endDate,
-								 duration,
+								 
+								 
+								 
 								 estimatedCompletion,
+								 
 								 status,
-								 delay,
 								 replace,
 								notes);	
 					}
@@ -286,12 +274,12 @@ public class VSSGUI extends JFrame {
 							 client = dialog.clientField.getText();
 							 desc = dialog.descField.getText();
 							 fault = dialog.faultField.getText();
-								startDate = dialog.startField.getText();
-								endDate = dialog.endField.getText();
-							 duration = Integer.parseInt(dialog.durationField.getText());						 
+								//startDate = dialog.startField.getText();
+								//endDate = dialog.endField.getText();
+							 //duration = Integer.parseInt(dialog.durationField.getText());						 
 								estimatedCompletion = dialog.estField.getText();
-							 status = dialog.statusField.getText();
-							 delay = Boolean.parseBoolean(dialog.delayField.getText());
+							 //status = dialog.statusField.getText();
+							 //delay = Boolean.parseBoolean(dialog.delayField.getText());
 							 replace = dialog.repField.getText();
 							 notes = dialog.notesField.getText();
 						} catch (NumberFormatException ex) {
@@ -300,16 +288,17 @@ public class VSSGUI extends JFrame {
 			
 						
 							motorHandler.updateMotor((String) motorTable.getValueAt(rowToChange, 0),
+									
 									manufacturer,
 									 client,
 									 desc,
 									 fault,
-									 startDate,
-									 endDate,
-									 duration,
+									
+									 
+									 
 									 estimatedCompletion,
-									 status,
-									 delay,
+									 
+									 
 									 replace,
 									notes);
 						
@@ -366,6 +355,16 @@ public class VSSGUI extends JFrame {
 				}
 			});
 			bottomPanel.add(btnDelays);
+			
+			JButton btnStatistics = new JButton("Statistics");
+			btnStatistics.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					statisticsDialog dialog = new statisticsDialog(themotorHandler);
+					dialog.setVisible(true);
+					//dialog.displayTableData(data.GetAllRemainingTasks());
+				}
+			});
+			bottomPanel.add(btnStatistics);
 			
 			JPanel topPanel = new JPanel();
 			contentPane.add(topPanel, BorderLayout.NORTH);

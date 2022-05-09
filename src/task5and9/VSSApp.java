@@ -20,7 +20,6 @@ public class VSSApp {
 	// This is just to run the program
 	public static void main(String[] args) {
 		VSSApp vd = new VSSApp();
-		
 	
 
 	}
@@ -67,12 +66,12 @@ public class VSSApp {
 			String client,
 			String desc,
 			String fault,
-			String startDate,
-			String endDate,
-			int duration,
+			
+			
+			
 			String estimatedCompletion,
-			String status,
-			boolean delay,
+			
+			
 			String replace,
 			String notes) {
 		data.UpdateMotor(motorName,
@@ -80,13 +79,32 @@ public class VSSApp {
 				 client,
 				 desc,
 				 fault,
-				 startDate,
-				 endDate,
-				 duration,
-				 status,
-				 delay,
+				 
+				 
+				 
+				 estimatedCompletion,
+				 
+				 
 				 replace,
 				notes);
+		Motor m = new Motor();
+		//m.setID(id);
+		//m.setUserID(userID);
+		//m.setMotorName(motorName);
+		m.setManufacturer(manufacturer);
+		m.setClient(client);
+		m.setDesc(desc);	
+		m.setFault(fault);
+		//m.setStartDateAdding();
+		//m.setEndDate();
+		//m.setDuration();
+	    m.setEstimatedCompletion(estimatedCompletion);
+		//m.setStatus(status);	
+		//m.setDelay();	
+		m.setRep(replace);	
+		m.setNotes(notes);
+		
+
 		
 		// Tempted to convert to an Object[][] at this point.
 		// But I'll let the GUI do it, since it will be replaced by
@@ -107,12 +125,12 @@ public class VSSApp {
 			String client,
 			String desc,
 			String fault,
-			String startDate,
-			String endDate,
-			int duration,
+			
+			
+			
 			String estimatedCompletion,
+		
 			String status,
-			boolean delay,
 			String replace,
 			String notes) {
 		Motor m = new Motor();
@@ -123,12 +141,12 @@ public class VSSApp {
 		m.setClient(client);
 		m.setDesc(desc);	
 		m.setFault(fault);
-		m.setStartDateAdding(LocalDate.now());
-		m.setEndDate(endDate);
-		m.setDuration(duration);
+		m.setStartDateAdding();
+		m.setEndDateAdding();
+		m.setDurationAdding();
 	    m.setEstimatedCompletion(estimatedCompletion);
 		m.setStatus(status);	
-		m.setDelay(delay);	
+		m.setDelay();	
 		m.setRep(replace);	
 		m.setNotes(notes);
 		data.AddMotor(m);
@@ -158,7 +176,7 @@ public class VSSApp {
 		// database ResultSet, anyway.
 		
 		InspecWindow = new allInspectionDialog(this);
-		InspecWindow.setVisible(true);
+		//InspecWindow.setVisible(true);
 		InspecWindow.displayTableData(data.GetAllInspections());
 	}
 	
@@ -166,7 +184,7 @@ public class VSSApp {
 		data.DeleteInspec(ID);
 		
 		InspecWindow = new allInspectionDialog(this);
-		InspecWindow.setVisible(true);
+		//InspecWindow.setVisible(true);
 		InspecWindow.displayTableData(data.GetAllInspections());
 	}
 
@@ -201,7 +219,7 @@ public class VSSApp {
 		// database ResultSet, anyway.
 		
 		TaskWindow = new allTaskDialog(this);
-		TaskWindow.setVisible(true);
+		//TaskWindow.setVisible(true);
 		TaskWindow.displayTableData(data.GetAllTasks());
 	}
 	
@@ -209,7 +227,7 @@ public class VSSApp {
 		data.DeleteTask(ID);
 		
 		TaskWindow = new allTaskDialog(this);
-		TaskWindow.setVisible(true);
+		//TaskWindow.setVisible(true);
 		TaskWindow.displayTableData(data.GetAllTasks());
 	}
 	
@@ -217,7 +235,7 @@ public class VSSApp {
 		data.suspendTask(ID);
 		
 		DelayWindow = new delayDialog(this);
-		DelayWindow.setVisible(true);
+		//DelayWindow.setVisible(true);
 		DelayWindow.displayTableData(data.GetAllRemainingTasks());
 	}
 	
@@ -225,7 +243,7 @@ public class VSSApp {
 		data.resumeTask(ID);
 		
 		DelayWindow = new delayDialog(this);
-		DelayWindow.setVisible(true);
+		//DelayWindow.setVisible(true);
 		DelayWindow.displayTableData(data.GetAllRemainingTasks());
 	}
 	
@@ -233,7 +251,7 @@ public class VSSApp {
 		data.completeTask(ID);
 		
 		DelayWindow = new delayDialog(this);
-		DelayWindow.setVisible(true);
+		//DelayWindow.setVisible(true);
 		DelayWindow.displayTableData(data.GetAllRemainingTasks());
 	}
 	
@@ -241,7 +259,7 @@ public class VSSApp {
 		data.sendAlerts(ID);
 		
 		DelayWindow = new delayDialog(this);
-		DelayWindow.setVisible(true);
+		//DelayWindow.setVisible(true);
 		DelayWindow.displayTableData(data.GetAllRemainingTasks());
 	}
 }

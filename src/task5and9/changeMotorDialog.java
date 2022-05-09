@@ -90,6 +90,8 @@ public class changeMotorDialog extends JDialog {
 			contentPanel.add(faultField);
 			faultField.setColumns(10);
 		}
+		
+		/*
 		{
 			JLabel lblNewLabel8 = new JLabel("Start Date");
 			contentPanel.add(lblNewLabel8);
@@ -119,7 +121,9 @@ public class changeMotorDialog extends JDialog {
 			durationField.setText("0");
 			contentPanel.add(durationField);
 			durationField.setColumns(10);
-		}
+		}*/
+		
+		
 		{
 			JLabel lblNewLabel16 = new JLabel("Estimated Completion");
 			contentPanel.add(lblNewLabel16);
@@ -130,6 +134,8 @@ public class changeMotorDialog extends JDialog {
 			contentPanel.add(estField);
 			estField.setColumns(10);
 		}
+		
+		/*
 		{
 			JLabel lblNewLabel12 = new JLabel("Status");
 			contentPanel.add(lblNewLabel12);
@@ -149,7 +155,10 @@ public class changeMotorDialog extends JDialog {
 			delayField.setText("0");
 			contentPanel.add(delayField);
 			delayField.setColumns(10);
-		}
+		}*/
+		
+		
+		
 		{
 			JLabel lblNewLabel14 = new JLabel("Replacement Parts");
 			contentPanel.add(lblNewLabel14);

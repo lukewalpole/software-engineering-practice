@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -89,7 +90,11 @@ public class newInspectionDialog extends JDialog {
 
 	
 	
-		
+		String newuser=userID.getText();
+		String newmotor=motorID.getText();
+		String newinspecres=inspecResult.getText();
+		String newinspecdate=inspectionDate.getText();
+		String newnotes=notesField.getText();
 		
 		
 		
@@ -102,7 +107,13 @@ public class newInspectionDialog extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						 setModal(false);
+						 /*
+						 if(newuser!=Integer) {
+					    	  JOptionPane.showMessageDialog(null, "Please complete all the fields!", "WARNING", JOptionPane.PLAIN_MESSAGE);
+					      }else {
 				         dispose();
+					      }*/
+						 dispose();
 					}
 				});
 				okButton.setActionCommand("OK");

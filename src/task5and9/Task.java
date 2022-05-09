@@ -103,10 +103,8 @@ public class Task {
 	}
 
 	public void setTask_startDate(String task_startDate) {
-
 		DateTimeFormatter dtf=DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		this.task_startDate = LocalDate.parse(task_startDate,dtf);
-
 
 	}
 	
@@ -117,7 +115,6 @@ public class Task {
 	public void setTask_endDate(String task_endDate) {
 		DateTimeFormatter dtf=DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		this.task_endDate = LocalDate.parse(task_endDate,dtf);
-
 	}
 
 	public String getTask_status() {

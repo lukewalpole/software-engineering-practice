@@ -128,6 +128,7 @@ public class Motor {
 		status = newStatus;
 	}
 	
+	
 	//
 	
 	public boolean getDelay() {
@@ -135,12 +136,20 @@ public class Motor {
 	}
 	
 	
-	public void setDelay(boolean newDelay) {
-		delay = newDelay;
+	public void setDelay() {
+		//delay = newDelay;
 		//delay=false;
-		/*if (endDate.isAfter(estimatedCompletion)){
+		if (endDate.isAfter(estimatedCompletion) && status!=("Complete")){
 			delay = true;
-		}*/
+		}
+	}
+	
+	public void setdbDelay(boolean delay) {
+		//delay = newDelay;
+		//delay=false;
+		if (endDate.isAfter(estimatedCompletion) && status!=("Complete")){
+			delay = true;
+		}
 	}
 	
 //
@@ -174,11 +183,18 @@ public class Motor {
 	
 	public void setStartDate(String newStartDate) {
 		DateTimeFormatter dtf=DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		startDate = LocalDate.parse(newStartDate,dtf);
+		//LocalDate tempStartDate = LocalDate.parse(newStartDate,dtf);
+		startDate = LocalDate.now();
+		
+		/*if (tempStartDate==null) {
+			startDate=LocalDate.now();
+		}else {
+			startDate=tempStartDate;
+		}*/
 
 	}
 	
-	public void setStartDateAdding(LocalDate newStartDate) {
+	public void setStartDateAdding() {
 		DateTimeFormatter dtf=DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		startDate = LocalDate.now();
 
@@ -190,7 +206,14 @@ public class Motor {
 	}
 	
 	
-	public void setEndDate(String newEndDate) {
+	public void setEndDate(String newEndtDate) {
+		
+		DateTimeFormatter dtf=DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		//endDate = LocalDate.parse(newEndDate,dtf);
+		endDate=LocalDate.now();
+	}
+	
+public void setEndDateAdding() {
 		
 		DateTimeFormatter dtf=DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		//endDate = LocalDate.parse(newEndDate,dtf);
@@ -205,6 +228,11 @@ public class Motor {
 	
 	
 	public void setDuration(int newDuration) {
+	    long daysBetween =ChronoUnit.DAYS.between(startDate,endDate);
+	    duration=(int)daysBetween;
+	}
+	
+	public void setDurationAdding() {
 	    long daysBetween =ChronoUnit.DAYS.between(startDate,endDate);
 	    duration=(int)daysBetween;
 	}

@@ -22,7 +22,7 @@ private DateFormat formatter;
 	public  VSSDatabase() {
 		formatter = new SimpleDateFormat("yyyy-MM-dd");
 		database = new DBConnection();
-		database.Connect("C:\\Users\\mariu\\eclipse-workspace\\VultureServiceSystem\\sqlite-tools-win32-x86-3370200\\newDB2.db");
+		database.Connect("C:\\Users\\User\\Documents\\GitHub\\software-engineering-practice\\VultureServiceSystem\\database.db");
 	}
 	
 	
@@ -57,7 +57,7 @@ private DateFormat formatter;
 	* sqlString = sqlString + formatter.format(m.getEstimatedCompletion())+"', ";
 	*/
 	public void AddMotor(Motor m) {
-		String sqlString = new String("INSERT INTO motor(user_id, motor_name, motor_manufacturer, motor_client, motor_desc, motor_fault, job_startDate, job_endDate, job_duration, job_status, job_delay, replacement_parts, notes) VALUES('");
+		String sqlString = new String("INSERT INTO motor(user_id, motor_name, motor_manufacturer, motor_client, motor_desc, motor_fault, job_startDate, job_endDate, job_duration,job_estimatedCompletion, job_status, job_delay, replacement_parts, notes) VALUES('");
 		//sqlString = sqlString + m.getID()+"', '";
 		sqlString = sqlString + m.getUserID()+"', '";
 		sqlString = sqlString + m.getMotorName()+"', '";
@@ -68,6 +68,7 @@ private DateFormat formatter;
 		sqlString = sqlString + m.getStartDate()+"', '";
 		sqlString = sqlString + m.getEndDate()+"', '";
 		sqlString = sqlString + m.getDuration()+"', '";
+		sqlString = sqlString + m.getEstimatedCompletion()+"', '";
 		sqlString = sqlString + m.getStatus()+"', '";
 		sqlString = sqlString + m.getDelay()+"', '";
 		sqlString = sqlString + m.getRep()+"', '";
@@ -177,11 +178,12 @@ private DateFormat formatter;
 			String client,
 			String desc,
 			String fault,
-			String startDate,
-			String endDate,
-			int duration,
-			String status,
-			boolean delay,
+			
+			
+			
+			String estimatedCompletion,
+
+			
 			String replace,
 			String notes) {
 		
@@ -190,11 +192,12 @@ private DateFormat formatter;
 				+"', motor_client= '" + client 
 				+"', motor_desc='" + desc
 				+"', motor_fault='" + fault
-				+"', job_startDate='" + startDate
-				+"', job_endDate='" + endDate
-				+"', job_duration='" + desc
-				+"', job_status='" + desc
-				+"', job_delay='" + desc
+
+
+						
+				+"', job_estimatedCompletion='" + estimatedCompletion
+
+				
 				+"', replacement_parts='" + desc
 				+"', notes='" + notes
 				+"' WHERE motor_name='"+motorName+"';");
@@ -290,7 +293,8 @@ private DateFormat formatter;
 				+", motor_fault"
 				+", job_startDate" 
 				+", job_endDate" 
-				+", job_duration" 
+				+", job_duration"
+				+", job_estimatedCompletion"
 				+", job_status" 
 				+", job_delay"
 				+", replacement_parts"
@@ -312,11 +316,11 @@ private DateFormat formatter;
 					m.setStartDate(motorList.getString(8));
 					m.setEndDate(motorList.getString(9));
 					m.setDuration(motorList.getInt(10));	
-				//m.setEstimatedCompletion(motorList.getString(doesnt exist on database));
-				m.setStatus(motorList.getString(11));	
-				m.setDelay(Boolean.parseBoolean((motorList.getString(12))));	
-				m.setRep(motorList.getString(13));	
-				m.setNotes(motorList.getString(14));	
+				m.setEstimatedCompletion(motorList.getString(11));
+				m.setStatus(motorList.getString(12));	
+				m.setdbDelay(Boolean.parseBoolean((motorList.getString(13))));	
+				m.setRep(motorList.getString(14));	
+				m.setNotes(motorList.getString(15));	
 				answer.add(m);
 			}
 		} catch (SQLException e) {
